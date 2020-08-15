@@ -7,6 +7,7 @@
 #include <complex>
 using namespace std;
 
+
 int height = 600, width = 600;
 
 void paintPixel(double x, double y, int c)
@@ -204,3 +205,5 @@ int main(int argc, char** argv)
   glutMainLoop();
   return 0;
 }
+
+// g++ -m32 -Wall -o line-sweep.out line-sweep.cpp -L"C:\MinGW\lib" -lglu32 -lglut32 -lopengl32 -lstdc++
