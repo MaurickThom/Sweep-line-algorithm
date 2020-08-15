@@ -7,7 +7,6 @@
 #include <complex>
 using namespace std;
 
-
 int height = 600, width = 600;
 
 void paintPixel(double x, double y, int c)
@@ -65,7 +64,8 @@ void paintLine(int x1, int y1, int x2, int y2)
       }
       else
       {
-        if(x2>x1){
+        if (x2 > x1)
+        {
           for (double x = x1; x <= x2; x++)
           {
             paintPixel(x, (m * x) + b, 2);
@@ -113,71 +113,89 @@ void paintLine(int x1, int y1, int x2, int y2)
   }
 }
 
-int cx = 0, cy = 0, c2x = 0, c2y = 0, p = 0,X[10],Y[10],m=0,n=0,xmin,xmax,ymin,ymax;
+int cx = 0, cy = 0, c2x = 0, c2y = 0, p = 0, X[10], Y[10], m = 0, n = 0, xmin, xmax, ymin, ymax;
 
-void filling(int xs[],int ys[]){
+void filling(int xs[], int ys[])
+{
   for (int i = 0; i < 10; i++)
   {
-    if(xs[i]>xmax){
+    if (xs[i] > xmax)
+    {
       xmax = xs[i];
     }
 
-    if(xs[i]<=xmin && xs[i] != 0){
+    if (xs[i] <= xmin && xs[i] != 0)
+    {
       xmin = xs[i];
     }
-    if(ys[i] > ymax){
+    if (ys[i] > ymax)
+    {
       ymax = ys[i];
     }
-    if(ys[i]<=ymin && ys[i] !=0){
+    if (ys[i] <= ymin && ys[i] != 0)
+    {
       ymin = ys[i];
     }
   }
-  for(int x = xmin;x<=xmax;x++)
+  for (int x = xmin; x <= xmax; x++)
   {
-    for(int y = ymin;y<=ymax;y++)
+    for (int y = ymin; y <= ymax; y++)
     {
       unsigned char pixel[4];
-      glReadPixels(x,glutGet(GLUT_WINDOW_HEIGHT)-y,1,1,GL_RGB,GL_UNSIGNED_BYTE,pixel);
-      if((int)pixel[1]==255){
-        if(p==0){
-          c2x = x;c2y = y;
+      glReadPixels(x, glutGet(GLUT_WINDOW_HEIGHT) - y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, pixel);
+      if ((int)pixel[1] == 255)
+      {
+        if (p == 0)
+        {
+          c2x = x;
+          c2y = y;
         }
-        if(p!=0){
-          cx = x;cy = y;
+        if (p != 0)
+        {
+          cx = x;
+          cy = y;
         }
         p++;
       }
-      if(y==ymax){
-        if(cx !=0){
-          paintLine(c2x,c2y,cx,cy);
-        }else{
-          paintPixel(c2x,c2y,4);
+      if (y == ymax)
+      {
+        if (cx != 0)
+        {
+          paintLine(c2x, c2y, cx, cy);
+        }
+        else
+        {
+          paintPixel(c2x, c2y, 4);
         }
       }
     }
     cx = c2x = cy = c2y = p = 0;
   }
-
 }
 
-void mouse(int btn,int state,int x,int y){
+void mouse(int btn, int state, int x, int y)
+{
   system("cls");
-  if(btn == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+  if (btn == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+  {
     X[n] = x;
     Y[n] = y;
-    if(m!=0){
-      paintLine(X[n-1],Y[n-1],X[n],Y[n]);
+    if (m != 0)
+    {
+      paintLine(X[n - 1], Y[n - 1], X[n], Y[n]);
     }
     n++;
     m++;
   }
 
-  if(btn == GLUT_RIGHT_BUTTON && state == GLUT_DOWN){
-    X[n] = x;Y[n] = y;
-    paintLine(X[n-1],Y[n-1],X[n],Y[n]);
-    paintLine(X[n],Y[n],X[0],Y[0]);
-    xmin = X[0],xmax = X[0],ymin = Y[0], ymax = Y[0];
-    filling(X,Y);
+  if (btn == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
+  {
+    X[n] = x;
+    Y[n] = y;
+    paintLine(X[n - 1], Y[n - 1], X[n], Y[n]);
+    paintLine(X[n], Y[n], X[0], Y[0]);
+    xmin = X[0], xmax = X[0], ymin = Y[0], ymax = Y[0];
+    filling(X, Y);
 
     for (int e = 0; e < 10; e++)
     {
@@ -188,19 +206,20 @@ void mouse(int btn,int state,int x,int y){
   }
 }
 
-void display(){
+void display()
+{
 }
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
-  glutInit(&argc,argv);
+  glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-  glutInitWindowSize(width,height);
-  glutInitWindowPosition(10,10);
+  glutInitWindowSize(width, height);
+  glutInitWindowPosition(10, 10);
   glutCreateWindow("Rellenando");
   glutDisplayFunc(display);
-  gluOrtho2D(0,width,height,0);
-  glClearColor(0,0,0,0);
+  gluOrtho2D(0, width, height, 0);
+  glClearColor(0, 0, 0, 0);
   glutMouseFunc(mouse);
   glutMainLoop();
   return 0;
