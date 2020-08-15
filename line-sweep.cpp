@@ -188,15 +188,6 @@ void mouse(int btn,int state,int x,int y){
 }
 
 void display(){
-  for (double x = 0; x <= width; x++)
-  {
-    paintPixel(x,590,0);
-  }
-  for (double y = 0; y <= height; y++)
-  {
-    paintPixel(10,y,0);
-  }
-
 }
 
 int main(int argc, char** argv)
